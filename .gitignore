@@ -4,6 +4,10 @@
 # But not these files
 !.gitignore
 !*.lex
+!*.cup
+!input*
 !Makefile
 !text*
 !TP1
+!TP2
+
