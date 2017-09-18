@@ -1,0 +1,34 @@
+// Specification Jcup
+import java_cup.runtime.*;
+
+parser code {:
+	public static void main(String args[]) throws Exception{
+		new parser(new Yylex(System.in)).parse();
+	}
+:}
+
+action code {:
+	int nb = 0;
+	int maxLength = 0;
+:}
+
+terminal String BINAIRE;
+non terminal expr, list_nb;
+
+expr 	::= list_nb 	{: 	System.out.println("Analyse terminée !");
+				System.out.println("Nombre de binaires reconnus : " + nb);
+				System.out.println("Longueur du nombre binaire le plus long: " + maxLength); :}
+	  |		{: 	System.out.println("Entree vide ! "); :};
+
+list_nb ::= BINAIRE:n 	{:	nb++; 
+				System.out.println("BINAIRE : " + n);
+				if(n.length() > maxLength){
+					maxLength = n.length();		
+				}
+				:} list_nb
+	  | BINAIRE:n	{: 	nb++; 
+				System.out.println("BINAIRE : " + n); 
+				if(n.length() > maxLength){
+					maxLength = n.length();
+				}
+				:};

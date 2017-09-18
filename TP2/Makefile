@@ -2,7 +2,7 @@ build: genLex genSyn compilSyn testSyn
 	
 genLex:
 	@echo $(LEX)
-	java jflex.Main $(LEX)
+	java JFlex.Main $(LEX)
 
 genSyn: genLex
 	java java_cup.Main $(SYN)

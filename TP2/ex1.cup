@@ -14,8 +14,8 @@ action code {:
 terminal Integer ENTIER;
 non terminal expr, list_nb;
 
-expr 	::= list_nb {: 	System.out.println("Analyse temrinée !");
-						System.out.println("Nombre d'entiers reconnus : " + nb); :}
+expr 	::= list_nb 	{: 	System.out.println("Analyse terminée !");
+				System.out.println("Nombre d'entiers reconnus : " + nb); :}
 		|	{: System.out.println("Entree vide ! "); :};
 list_nb ::= ENTIER:n {:	nb++; System.out.println("ENTIER : " + n); :} list_nb
 		  | ENTIER:n {: nb++; System.out.println("ENTIER : " + n); :};
