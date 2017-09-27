@@ -1,0 +1,31 @@
+// Specification Jcup
+import java_cup.runtime.*;
+
+parser code {:
+	public static void main(String args[]) throws Exception{
+		new parser(new Yylex(System.in)).parse();
+	}
+:}
+
+action code {:
+	int total = 0; 
+:}
+
+terminal String INTITULE;
+terminal String NUMERO;
+terminal String SEPARATEUR;
+terminal String ARTICLE;
+terminal Integer NOMBRE;
+terminal String EOL;
+terminal String TOTAL;
+
+non terminal facture;
+non terminal entete;
+non terminal liste_article;
+non terminal prix;
+
+
+facture ::= entete liste_article prix | error {: System.out.println("Facture ne provenant pas de MonMag !"); :};
+entete  ::= INTITULE NUMERO:n SEPARATEUR;
+liste_article ::= ARTICLE NOMBRE:n1 NOMBRE:n2 EOL {: total += n1 * n2; :} liste_article | ARTICLE NOMBRE:n1 NOMBRE:n2 EOL {:total += n1 * n2;:};
+prix  ::= TOTAL NOMBRE:t {: if(t!=total) System.out.println("Total incorrect"); :};
