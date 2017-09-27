@@ -20,5 +20,5 @@ whitespace = [ \t\f]
 {integer}  		{return new Symbol(sym.INTEGER, new Integer(yytext()));}
 {id}	   		{return new Symbol(sym.ID, new String(yytext()));}
 {whitespace}	{return new Symbol(sym.WHITESPACE, new String(yytext()));}
-\n 				{} 
+\n				{return new Symbol(sym.NL, new String(yytext()));} 
 .				{System.out.println("Char '" + yytext() + "' is not recognized.");} // Display unrecognized chars

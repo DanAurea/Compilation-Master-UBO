@@ -14,17 +14,18 @@ terminal String LPAR;
 terminal String RPAR;
 terminal String INTEGER;
 terminal String WHITESPACE;
+terminal String NL;
 terminal String ID;
 
+non terminal block;
 non terminal list;
 non terminal slist;
 non terminal expression;
 non terminal atom;
 
-list		::= LPAR expression RPAR 
-				| error RPAR {: System.err.println("'(' is missing ."); :} 
-				| error LPAR {: System.err.println("')' is missing ."); :} 
-				| error {: System.out.println("Wrong expression");:};
-slist		::= LPAR expression RPAR expression;
-expression	::= atom expression | slist | ;
+block		::= list NL block | list;
+list		::= LPAR expression RPAR
+				| error {: System.err.println("'(' or ')' is missing ."); :}; 
+slist		::= LPAR expression RPAR expression; // Sublist rule
+expression	::= atom expression | slist | ; 
 atom		::= INTEGER | ID | WHITESPACE;
