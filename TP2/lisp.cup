@@ -8,6 +8,9 @@ parser code {:
 :}
 
 action code {:
+	int nbNestingLevel	=	1;
+	int tmp				=	1;
+	int maxNesting		=	1;
 :}
 
 terminal String LPAR;
@@ -23,9 +26,19 @@ non terminal slist;
 non terminal expression;
 non terminal atom;
 
-block		::= list NL block | list;
-list		::= LPAR expression RPAR
+block		::= list NL block 
+				| list {:	System.out.println("Analyse terminée ! ");
+							System.out.println("Niveau d'imbrications max: " + maxNesting);	
+						:};
+list		::= LPAR 	{:	tmp = 1;	:} expression RPAR {:	
+																if(nbNestingLevel > maxNesting)
+																	maxNesting = nbNestingLevel;
+															:}
 				| error {: System.err.println("'(' or ')' is missing ."); :}; 
-slist		::= LPAR expression RPAR expression; // Sublist rule
-expression	::= atom expression | slist | ; 
+slist		::= LPAR {: tmp++; :} expression RPAR 	{:	
+														if(tmp > nbNestingLevel)
+															nbNestingLevel = tmp;
+														tmp--; // Decrease nesting level when encountering closing bracket
+													:} expression; // Sublist rule
+expression	::= atom expression | slist  | ; 
 atom		::= INTEGER | ID | WHITESPACE;
