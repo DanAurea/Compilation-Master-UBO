@@ -6,8 +6,9 @@
 !*.lex
 !*.cup
 !input*
+!sourceCode
 !Makefile
 !text*
-!TP1
-!TP2
+!TP*
 !facture*
+!lisp*

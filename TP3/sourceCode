@@ -1,0 +1,129 @@
+// Integer
+
+123
+55004
+
+// Arithmetic operators
+
++
+-
+*
+/
+%
+++
+--
+
+// Logicial operators
+
+|| 
+&& 
+!
+
+// Relational operators
+
+<=
+>=
+==
+!=
+<
+>
+
+// Bit operators
+
+<<
+>>
+&
+|
+^
+~
+
+// Assignment
+
+=
++=
+-=
+/=
+%=
+<<=
+>>=
+&=
+^=
+|=
+
+// Identifier
+
+test
+test_test
+test_____test
+Test
+TEST_TEST
+TEST_______TEST
+TEST3
+
+// Types
+
+char
+signed char
+unsigned char
+short
+short int
+signed short
+signed short int
+unsigned short
+unsigned short int
+int
+signed
+signed int
+unsigned
+unsigned int
+long
+long int
+signed long
+signed long int
+unsigned long
+unsigned long int
+long long
+long long int
+signed long long
+signed long long int
+unsigned long long
+unsigned long long int
+float
+double
+long double
+
+// Keywords
+
+auto
+break
+case
+const
+continue
+default
+do
+enum
+extern
+for
+goto
+if
+register
+return
+sizeof
+static
+struct
+switch
+typedef
+union
+void
+volatile
+while
+...
+
+{}
+()
+,
+;
+
+// Comments
+
+/* Test */
