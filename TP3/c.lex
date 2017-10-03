@@ -14,8 +14,8 @@ LOG_OP		=	"||" | "&&" | "!"
 ASSIGN_OP	=	("+" | "-" | "*" | "/" | "%" | "<<" | ">>" | "&" | "^" | "|")?"="
 REL_OP		=	("!" | "<" | ">" | "=" )"="?
 BIT_OP		=	"<<" | ">>" | "&" | "|" | "^" | "~"
-TYPE		=	("unsigned" | "signed")? \ ? ( ("short"\ ?){0,1} | ("long"\ ?) {0,2}) (int | double | float | char)? 	// There is an issue with blank types at the moment
-KEYWORD		=	"auto" | "break" | "case" | "const" | "continue" | "default" | "do" | "else" | "enum" | "extern" | "for" | "goto" | "if" | "register" | "return" | "sizeof" | "static" | "struct" | "switch" | "typedef" | "union" | "void" | "volatile" | "while" | "..."
+TYPE		=	(("unsigned" | "signed") \ )?  (("short" | "long" ) \  )? ("short" | long  |long\  | int | double | float | char )+ | ("unsigned" | "signed") 	
+KEYWORD		=	"auto" | "break" | "case" | "const" | "continue" | "default" | "do" | "else" | "enum" | "extern" | "for" | "goto" | "if" | "register" | "restrict" | "return"  | "sizeof" | "static" | "struct" | "switch" | "typedef" | "union" | "void" | "volatile" | "while" | "..."
 DELIMITER	=	"{" | "}" | "(" | ")" | "," | ";" | "[" | "]"
 ID			=	([a-zA-Z0-9_][a-zA-Z0-9_]*)
 COMMENT		=	"//".* | "/*" .* "*/"

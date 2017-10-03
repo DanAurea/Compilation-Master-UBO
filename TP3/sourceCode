@@ -17,7 +17,7 @@
 
 || 
 && 
-!
+! 
 
 // Relational operators
 
@@ -101,12 +101,14 @@ const
 continue
 default
 do
+else
 enum
 extern
 for
 goto
 if
 register
+restrict
 return
 sizeof
 static
