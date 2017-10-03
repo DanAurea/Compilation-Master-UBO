@@ -20,7 +20,7 @@ TYPE		=	(("unsigned" | "signed") \ )?  (("short" | "long" ) \  )? ("short" | lon
 KEYWORD		=	"auto" | "break" | "case" | "const" | "continue" | "default" | "do" | "else" | "enum" | "extern" | "for" | "goto" | "if" | "register" | "restrict" | "return"  | "sizeof" | "static" | "struct" | "switch" | "typedef" | "union" | "void" | "volatile" | "while" | "..."
 DELIMITER	=	"{" | "}" | "(" | ")" | "," | ";" | "[" | "]"
 ID			=	([a-zA-Z0-9_][a-zA-Z0-9_]*)
-COMMENT		=	"//".* | "/*" .* "*/"
+COMMENT		=	"//".* | "/*" .* "*/" | "/" ([ \t]* "*"\n | [ \t]* "*"[ \t]* .*\n )+ [ \t]* "*/"
 STRING		=	"\"" .* "\""
 CHAR 		=	"'" . "'" // Currently not recognizing "\0" / "\n" and other escaped chars.
 
