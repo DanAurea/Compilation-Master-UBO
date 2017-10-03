@@ -2,6 +2,8 @@
 %class lexer
 %unicode
 %int
+%line
+%column
 %standalone
 
 // Should be refactored if needed - Need pointer op (*)  and ternary operators (?:)
@@ -39,4 +41,4 @@ CHAR 		=	"'" . "'" // Currently not recognizing "\0" / "\n" and other escaped ch
 {ID} 			{System.out.println("id " + yytext());}
 {COMMENT} 		{System.out.println("comment " + yytext());}
 \n				{}
-. 				{}
+. 				{System.err.println("invalid token : " + yytext() + " line : " + yyline + " column: " + yycolumn);}

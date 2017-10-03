@@ -151,3 +151,8 @@ while
 12.3E5
 .2
 3.
+
+// Lexical error triggered
+
+eeéee
+tétard
