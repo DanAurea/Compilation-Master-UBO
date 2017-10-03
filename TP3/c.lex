@@ -6,6 +6,8 @@
 
 // Should be refactored if needed - Need pointer op (*)  and ternary operators (?:)
 
+EXPONENT	=	[eE] [\+\-]? [0-9]+
+FLOAT 		=	([0-9]+ \. [0-9]+ {EXPONENT}? | \. [0-9]+ {EXPONENT}? | [0-9]+ \. {EXPONENT}? | [0-9]+ {EXPONENT}) [fFdD]? | [0-9]+ [fFdD]
 INTEGER		=	[0-9]+
 ARITH_OP	=	[\+\-\*\/\%] | "++" | "--" 
 LOG_OP		=	"||" | "&&" | "!"
@@ -14,14 +16,15 @@ REL_OP		=	("!" | "<" | ">" | "=" )"="?
 BIT_OP		=	"<<" | ">>" | "&" | "|" | "^" | "~"
 TYPE		=	("unsigned" | "signed")? \ ? ( ("short"\ ?){0,1} | ("long"\ ?) {0,2}) (int | double | float | char)? 	// There is an issue with blank types at the moment
 KEYWORD		=	"auto" | "break" | "case" | "const" | "continue" | "default" | "do" | "else" | "enum" | "extern" | "for" | "goto" | "if" | "register" | "return" | "sizeof" | "static" | "struct" | "switch" | "typedef" | "union" | "void" | "volatile" | "while" | "..."
-DELIMITER	=	"{" | "}" | "(" | ")" | "," | ";"
+DELIMITER	=	"{" | "}" | "(" | ")" | "," | ";" | "[" | "]"
 ID			=	([a-zA-Z0-9_][a-zA-Z0-9_]*)
 COMMENT		=	"//".* | "/*" .* "*/"
 STRING		=	"\"" .* "\""
-CHAR 		=	"'"."'"
+CHAR 		=	"'" . "'" // Currently not recognizing "\0" / "\n" and other escaped chars.
 
 %%
 
+{FLOAT}			{System.out.println("float " + yytext());}
 {INTEGER} 		{System.out.println("integer " + yytext());}
 {ARITH_OP} 		{System.out.println("arith " + yytext());}
 {LOG_OP} 		{System.out.println("log " + yytext());}
