@@ -127,3 +127,17 @@ while
 // Comments
 
 /* Test */
+
+
+//	String
+
+"Test"
+"It's not a string"
+
+// Char
+
+'t'
+'e'
+'s'
+'t'
+'not char'

@@ -17,6 +17,8 @@ KEYWORD		=	"auto" | "break" | "case" | "const" | "continue" | "default" | "do" |
 DELIMITER	=	"{" | "}" | "(" | ")" | "," | ";"
 ID			=	([a-zA-Z0-9_][a-zA-Z0-9_]*)
 COMMENT		=	"//".* | "/*" .* "*/"
+STRING		=	"\"" .* "\""
+CHAR 		=	"'"."'"
 
 %%
 
@@ -29,6 +31,8 @@ COMMENT		=	"//".* | "/*" .* "*/"
 {TYPE} 			{System.out.println("type " + yytext());}
 {KEYWORD} 		{System.out.println("keyword " + yytext());}
 {DELIMITER}		{System.out.println("delimiter " + yytext());}
+{STRING}		{System.out.println("string " + yytext());}
+{CHAR}			{System.out.println("char " + yytext());}
 {ID} 			{System.out.println("id " + yytext());}
 {COMMENT} 		{System.out.println("comment " + yytext());}
 \n				{}
