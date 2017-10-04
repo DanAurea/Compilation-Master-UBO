@@ -143,6 +143,7 @@ while
 
 //	String
 
+"test" te "test"
 "Test"
 "It's not a string"
 
@@ -166,3 +167,4 @@ while
 
 eeéee
 tétard
+à

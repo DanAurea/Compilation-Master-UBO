@@ -19,10 +19,11 @@ BIT_OP		=	"<<" | ">>" | "&" | "|" | "^" | "~"
 TYPE		=	(("unsigned" | "signed") \ )?  (("short" | "long" ) \  )? ("short" | long  |long\  | int | double | float | char )+ | ("unsigned" | "signed") 	
 KEYWORD		=	"auto" | "break" | "case" | "const" | "continue" | "default" | "do" | "else" | "enum" | "extern" | "for" | "goto" | "if" | "register" | "restrict" | "return"  | "sizeof" | "static" | "struct" | "switch" | "typedef" | "union" | "void" | "volatile" | "while" | "..."
 DELIMITER	=	"{" | "}" | "(" | ")" | "," | ";" | "[" | "]"
-ID			=	([a-zA-Z0-9_][a-zA-Z0-9_]*)
+ID		=	([a-zA-Z0-9_][a-zA-Z0-9_]*)
 COMMENT		=	"//".* | "/*" .* "*/" | "/" ([ \t]* "*"\n | [ \t]* "*"[ \t]* .*\n )+ [ \t]* "*/"
-STRING		=	"\"" .* "\""
+STRING		=	"\"" [^\"]* "\""
 CHAR 		=	"'" . "'" // Currently not recognizing "\0" / "\n" and other escaped chars.
+WHITESPACE	=	[ \t]
 
 %%
 
@@ -30,7 +31,7 @@ CHAR 		=	"'" . "'" // Currently not recognizing "\0" / "\n" and other escaped ch
 {INTEGER} 		{System.out.println("integer " + yytext());}
 {ARITH_OP} 		{System.out.println("arith " + yytext());}
 {LOG_OP} 		{System.out.println("log " + yytext());}
-{ASSIGN_OP} 	{System.out.println("assign " + yytext());}
+{ASSIGN_OP}		{System.out.println("assign " + yytext());}
 {REL_OP} 		{System.out.println("rel " + yytext());}
 {BIT_OP} 		{System.out.println("bit " + yytext());}
 {TYPE} 			{System.out.println("type " + yytext());}
@@ -40,5 +41,6 @@ CHAR 		=	"'" . "'" // Currently not recognizing "\0" / "\n" and other escaped ch
 {CHAR}			{System.out.println("char " + yytext());}
 {ID} 			{System.out.println("id " + yytext());}
 {COMMENT} 		{System.out.println("comment " + yytext());}
-\n				{}
-. 				{System.err.println("invalid token : " + yytext() + " line : " + yyline + " column: " + yycolumn);}
+{WHITESPACE}		{}
+\n			{}
+. 			{System.err.println("invalid token : " + yytext() + " line : " + yyline + " column: " + yycolumn);}
