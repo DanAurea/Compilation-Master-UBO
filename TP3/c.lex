@@ -20,9 +20,9 @@ TYPE		=	(("unsigned" | "signed") \ )?  (("short" | "long" ) \  )? ("short" | lon
 KEYWORD		=	"auto" | "break" | "case" | "const" | "continue" | "default" | "do" | "else" | "enum" | "extern" | "for" | "goto" | "if" | "register" | "restrict" | "return"  | "sizeof" | "static" | "struct" | "switch" | "typedef" | "union" | "void" | "volatile" | "while" | "..."
 DELIMITER	=	"{" | "}" | "(" | ")" | "," | ";" | "[" | "]"
 ID		=	([a-zA-Z0-9_][a-zA-Z0-9_]*)
-COMMENT		=	"//".* | "/*" .* "*/" | "/" ([ \t]* "*"\n | [ \t]* "*"[ \t]* .*\n )+ [ \t]* "*/"
+COMMENT		=	"//".* | "/*" ~ "*/"
 STRING		=	"\"" [^\"]* "\""
-CHAR 		=	"'" . "'" // Currently not recognizing "\0" / "\n" and other escaped chars.
+CHAR 		=	"'" ([^\']| \\(n|0)) "'"
 WHITESPACE	=	[ \t]
 
 %%
@@ -41,6 +41,6 @@ WHITESPACE	=	[ \t]
 {CHAR}			{System.out.println("char " + yytext());}
 {ID} 			{System.out.println("id " + yytext());}
 {COMMENT} 		{System.out.println("comment " + yytext());}
-{WHITESPACE}		{}
-\n			{}
-. 			{System.err.println("invalid token : " + yytext() + " line : " + yyline + " column: " + yycolumn);}
+{WHITESPACE}	{}
+\n			    {}
+. 			    {System.err.println("invalid token : " + yytext() + " line : " + yyline + " column: " + yycolumn);}

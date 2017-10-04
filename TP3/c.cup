@@ -1,0 +1,53 @@
+// Specification Jcup
+import java_cup.runtime.*;
+
+parser code {:
+	public static void main(String args[]) throws Exception{
+		new parser(new Yylex(System.in)).parse();
+	}
+:}
+
+action code {:
+:}
+
+terminal    FLOAT;			  
+terminal    INTEGER; 		
+terminal    ARITH_OP;
+terminal    LOG_OP; 		  
+terminal    ASSIGN_OP;
+terminal    REL_OP;
+terminal    BIT_OP; 		  
+terminal    TYPE; 			  
+terminal    KEYWORD; 		
+terminal    ASSIGN;
+terminal    IF;
+terminal    ELSE;
+terminal 		FOR;
+terminal    LOG_AND;
+terminal    LOG_OR;
+terminal    NOT;
+terminal    LBRACKET;
+terminal    RBRACKET;
+terminal    LBRACE;
+terminal    RBRACE;
+terminal    COMMA;
+terminal    LSQUARE;
+terminal    RSQUARE;
+terminal    SEMI;
+terminal    INCREMENT;
+terminal    DECREMENT;
+terminal    STRING;		  
+terminal    CHAR;			  
+terminal    ID;
+terminal    NL;
+
+non terminal listDeclaration;
+non terminal declaration;
+non terminal listID;
+
+
+listDeclaration   ::= declaration NL listDeclaration |;
+listID            ::= listID ID COMMA listID | ID;
+declaration       ::= TYPE:type ID:id SEMI{: 
+                                   System.out.println("Declaration: " + type + " " + id + ";"); 
+                                 :}  | error {: System.err.println("Incorrect declaration."); :};
