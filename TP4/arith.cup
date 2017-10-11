@@ -1,0 +1,35 @@
+// Specification Jcup
+import java_cup.runtime.*;
+
+parser code {:
+	public static void main(String args[]) throws Exception{
+		new parser(new Yylex(System.in)).parse();
+	}
+:}
+
+action code {:
+:}
+
+terminal    Integer   FLOAT;			  
+terminal    Integer INTEGER; 		
+terminal    PLUS;
+terminal    MINUS;
+terminal    MULT;
+terminal    DIV;
+terminal    LPAR;
+terminal    RPAR;
+
+non terminal  Integer expr;
+non terminal  Integer nb; 
+non terminal  S;
+precedence left PLUS,MINUS;
+precedence left MULT,DIV;
+
+S                    ::= expr:res {: System.out.println("Le résultat est: " + res); :};
+expr                 ::= expr:e1 PLUS expr:e2 {:RESULT = e1 + e2;:} 
+                        | expr:e1 MINUS expr:e2 {:RESULT = e1 - e2;:} 
+                        | expr:e1 MULT expr:e2 {:RESULT = e1 * e2;:} 
+                        | expr:e1 DIV expr:e2  {:RESULT = e1 / e2;:} 
+                        | LPAR expr:e RPAR {: RESULT = e;:}
+                        | nb:n {: RESULT = n; :};
+nb                   ::= INTEGER:i {: RESULT = i; :} | FLOAT:f {: RESULT = f;:};

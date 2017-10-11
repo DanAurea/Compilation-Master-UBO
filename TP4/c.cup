@@ -41,13 +41,25 @@ terminal    CHAR;
 terminal    ID;
 terminal    NL;
 
+non terminal  instructionList;
+non terminal  instruction;
+non terminal  String idList;
+non terminal  forLoop;
+non terminal  initFor;
+non terminal  cond;
+non terminal  actionFor;
+non terminal  actionOp;
+non terminal  value;
 
-non terminal declarationList;
-non terminal declaration;
-non terminal String idList;
 
-
-declarationList   ::= declarationList declaration | declaration ;
+instructionList   ::= instructionList instruction | instruction ;
 idList            ::= ID:id COMMA idList {:RESULT = id + ",";:} | ID:id {:RESULT = (String) id;:};
-declaration       ::= TYPE idList SEMI NL
-                      | error {: System.err.println("Incorrect declaration."); :};
+instruction       ::= TYPE idList SEMI NL
+                      | forLoop | error {: System.err.println("Incorrect declaration."); :};
+
+forLoop           ::= FOR LBRACKET;
+initFor           ::= ID ASSIGN value COMMA initFor | ID ASSIGN value;
+cond              ::= value REL_OP value COMMA cond | value REL_OP value;
+value             ::= STRING | CHAR | INTEGER | FLOAT | ID;              
+actionFor         ::= ID actionOp COMMA actionFor | ID actionOp actionFor;
+actionOp          ::= ASSIGN_OP | ASSIGN | INCREMENT | DECREMENT;
