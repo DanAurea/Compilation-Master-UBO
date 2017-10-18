@@ -1,0 +1,102 @@
+// Specification Jcup
+import java_cup.runtime.*;
+import java.util.Map;
+import java.util.HashMap;
+
+parser code {:
+	public static void main(String args[]) throws Exception{
+		new parser(new Yylex(System.in)).parse();
+	}
+:}
+
+action code {:
+	HashMap<String, Object[]> symbolTable = new HashMap<String, Object[]>();
+	String t;
+:}
+
+terminal    FLOAT;			  
+terminal    INTEGER; 		
+terminal    ARITH_OP;
+terminal    LOG_OP; 		  
+terminal    ASSIGN_OP;
+terminal    REL_OP;
+terminal    BIT_OP; 		  
+terminal   String TYPE; 			  
+terminal    KEYWORD; 		
+terminal    ASSIGN;
+terminal    IF;
+terminal    ELSE;
+terminal 		FOR;
+terminal    LOG_AND;
+terminal    LOG_OR;
+terminal    NOT;
+terminal    LBRACKET;
+terminal    RBRACKET;
+terminal    LBRACE;
+terminal    RBRACE;
+terminal    COMMA;
+terminal    LSQUARE;
+terminal    RSQUARE;
+terminal    SEMI;
+terminal    INCREMENT;
+terminal    DECREMENT;
+terminal    STRING;		  
+terminal    CHAR;			  
+terminal  String ID;
+terminal    NL;
+
+non terminal 	program;
+non	terminal	declarationList;
+non terminal	declaration;
+non	terminal	assignmentList;
+non	terminal	assignment;
+non	terminal	String idList;
+non	terminal	expr;
+
+program					::=	declarationList	assignmentList {: 	
+																System.out.println("\nSymbol table: \n");
+																for(Map.Entry<String, Object[]> entry: symbolTable.entrySet()){
+																	String key 		= 	entry.getKey();
+																	Object[] values =	entry.getValue();
+																	System.out.println(key + " " + values[0] + " " + values[1]);
+																} 
+															:};
+declarationList			::=	declaration declarationList|;
+declaration 			::=	TYPE:type	{: t = type; :} idList	SEMI NL;
+idList					::=	ID:id  {: 
+										if(!symbolTable.containsKey(id)){
+											Object[]	values = new Object[2];
+											values[0]	=	t;
+											values[1]	=	null;
+											symbolTable.put(id, values);
+										}else{
+											System.err.println(id + " already declared." );
+										} 
+									:} COMMA idList  
+							| ID:id {: 
+										if(!symbolTable.containsKey(id)){
+											Object[]	values = new Object[2];
+											values[0]	=	t;
+											values[1]	=	null;
+											symbolTable.put(id, values);
+										}else{
+											System.err.println(id + " already declared." );
+										} 
+									:};
+assignmentList			::=	assignment assignmentList|;
+assignment 				::=	ID:id ASSIGN expr:val SEMI NL 	{:
+																if(symbolTable.containsKey(id)){
+																	
+																	if(t == null && symbolTable.containsKey(val) && !symbolTable.get(val)[0].equals(symbolTable.get(id)[0])){
+																		System.err.println("Type mismatch");
+																	}else if(!t.equals(symbolTable.get(id)[0])){
+																		System.err.println("Type mismatch");
+																	}
+																	else
+																		symbolTable.get(id)[1] = val;
+																}else{
+																	System.err.println(id + " is not declared.");
+																}
+																t = null;
+															:};
+expr					::=	ID:id {: RESULT = id;:}| FLOAT:f {: RESULT = f; t = "float";:} | INTEGER:i {: RESULT = i; t = "int";:}| STRING:s {: RESULT = s; t = "s";:}| CHAR:c {: RESULT = c; t = "char";:};
