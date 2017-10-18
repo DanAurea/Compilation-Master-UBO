@@ -41,25 +41,30 @@ terminal    CHAR;
 terminal    ID;
 terminal    NL;
 
-non terminal  instructionList;
-non terminal  instruction;
-non terminal  String idList;
-non terminal  forLoop;
-non terminal  initFor;
-non terminal  cond;
-non terminal  actionFor;
-non terminal  actionOp;
-non terminal  value;
+non terminal  	instructionList;
+non terminal  	instruction;
+non terminal	assignment;
+non terminal	assignmentList;
+non terminal  	String idList;
+non terminal  	forLoop;
+non	terminal	condBlock;
+non terminal  	initFor;
+non terminal  	cond;
+non terminal  	actionFor;
+non terminal  	actionOp;
+non terminal  	value;
 
+instructionList   	::= instructionList instruction | instruction;
+idList            	::= ID:id COMMA idList {:RESULT = id + ",";:} | ID:id {:RESULT = (String) id;:};
+instruction       	::= TYPE idList SEMI NL
+                  	    | forLoop | error {: System.err.println("Incorrect declaration."); :};
+assignment			::= ID ASSIGN value SEMI NL;
+assignmentList		::=	assignmentList assignment | assignment;
 
-instructionList   ::= instructionList instruction | instruction ;
-idList            ::= ID:id COMMA idList {:RESULT = id + ",";:} | ID:id {:RESULT = (String) id;:};
-instruction       ::= TYPE idList SEMI NL
-                      | forLoop | error {: System.err.println("Incorrect declaration."); :};
-
-forLoop           ::= FOR LBRACKET;
-initFor           ::= ID ASSIGN value COMMA initFor | ID ASSIGN value;
-cond              ::= value REL_OP value COMMA cond | value REL_OP value;
-value             ::= STRING | CHAR | INTEGER | FLOAT | ID;              
-actionFor         ::= ID actionOp COMMA actionFor | ID actionOp actionFor;
-actionOp          ::= ASSIGN_OP | ASSIGN | INCREMENT | DECREMENT;
+forLoop				::= FOR LBRACKET initFor SEMI cond SEMI actionFor RBRACKET condBlock;
+condBlock			::= LBRACE NL assignmentList RBRACE | assignment;
+initFor           	::= ID ASSIGN value COMMA initFor | ID ASSIGN value;
+cond              	::= value REL_OP value COMMA cond | value REL_OP value;
+value             	::= STRING | CHAR | INTEGER | FLOAT | ID;              
+actionFor         	::= ID actionOp COMMA actionFor | ID actionOp;
+actionOp          	::= ASSIGN_OP | ASSIGN | INCREMENT | DECREMENT;
