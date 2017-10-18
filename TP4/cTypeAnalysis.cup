@@ -87,7 +87,13 @@ assignmentList			::=	assignment assignmentList|;
 assignment 				::=	ID:id ASSIGN expr:val SEMI NL 	{:
 																if(symbolTable.containsKey(id)){
 																	
-																	if(t == null && symbolTable.containsKey(val) && !symbolTable.get(val)[0].equals(symbolTable.get(id)[0])){
+																	if(t == "id" && symbolTable.containsKey(val)){
+																		if(symbolTable.get(val)[1] == null){
+																			System.err.println("Variable not initialized.");
+																		}
+																	}
+
+																	if(t == "id" && symbolTable.containsKey(val) && !symbolTable.get(val)[0].equals(symbolTable.get(id)[0])){
 																		System.err.println("Type mismatch");
 																	}else if(!t.equals(symbolTable.get(id)[0])){
 																		System.err.println("Type mismatch");
@@ -99,4 +105,4 @@ assignment 				::=	ID:id ASSIGN expr:val SEMI NL 	{:
 																}
 																t = null;
 															:};
-expr					::=	ID:id {: RESULT = id;:}| FLOAT:f {: RESULT = f; t = "float";:} | INTEGER:i {: RESULT = i; t = "int";:}| STRING:s {: RESULT = s; t = "s";:}| CHAR:c {: RESULT = c; t = "char";:};
+expr					::=	ID:id {: RESULT = id; t = "id";:}| FLOAT:f {: RESULT = f; t = "float";:} | INTEGER:i {: RESULT = i; t = "int";:}| STRING:s {: RESULT = s; t = "s";:}| CHAR:c {: RESULT = c; t = "char";:};
